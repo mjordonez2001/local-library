@@ -13,7 +13,7 @@ function sortAccountsByLastName(accounts) {
 function getTotalNumberOfBorrows(account, books) {
   const id = account.id;
   numberOfBorrows = 0;
-
+  
   books.forEach((book) => {
     book.borrows.forEach((borrow) => {
       if (borrow.id === id) numberOfBorrows++;

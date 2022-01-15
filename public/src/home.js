@@ -19,7 +19,11 @@ function getBooksBorrowedCount(books) {
 
 function getMostCommonGenres(books) {
   const allGenres = [];
-
+  const reducedGenres = books.reduce((result, book) =>  {
+    result[book.title] = book.genre;
+    return result;
+  }, {});
+  
   books.forEach((book) => {
     const currentGenre = book.genre;
 
@@ -52,10 +56,16 @@ function getMostPopularBooks(books) {
 
 function getMostPopularAuthors(books, authors) {
   const allAuthors = [];
+  const authorNames = authors.map((author) => `${author.name.first} ${author.name.last}`)
 
   books.forEach((book) => {
-    const currentAuthor = authors.find((author) => author.id === book.authorId);
-    const authorName = `${currentAuthor.name.first} ${currentAuthor.name.last}`
+    const currentAuthorObject = authors.find((author) => author.id === book.authorId);
+    let authorName;
+
+    for (author in authorNames) {
+      const currentAuthor = authorNames[author];
+      if (currentAuthor.includes(currentAuthorObject.name.first)) authorName = currentAuthor;
+    }
 
     if (!(allAuthors.some((author) => author.name === authorName))) {
       allAuthors.push({name: authorName, count: 0});
